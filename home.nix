@@ -39,7 +39,6 @@ in {
 
     packages = with pkgs; [
       # Browser
-      firefox
       google-chrome
 
       # Chat
@@ -106,6 +105,9 @@ in {
       pavucontrol
       rofi-pulse-select
       x11idle
+
+      # My packages
+      (pkgs.callPackage ./derivations/firefox-profile-switcher-connector.nix { })
     ];
 
     file = {
