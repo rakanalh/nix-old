@@ -15,6 +15,9 @@
      (gac-automatically-add-new-files-p . t)
      (gac-automatically-push-p . t))))
 
+;;; Workaround for nixos
+(add-hook! 'emacs-startup-hook #'doom-init-ui-h)
+
 ;; DOOM CONFIG
 (setq doom-theme 'doom-tomorrow-night
       doom-font (font-spec :family "Hack" :size 12)

@@ -2,6 +2,11 @@
 
 let
   gpgPkg = config.programs.gpg.package;
+  doom-emacs = pkgs.callPackage (builtins.fetchTarball {
+    url = https://github.com/nix-community/nix-doom-emacs/archive/master.tar.gz;
+  }) {
+    doomPrivateDir = ./dotfiles/doom;
+  };
 in {
   nixpkgs = {
     overlays = [
@@ -64,6 +69,7 @@ in {
       iosevka
 
       # Dev tools
+      doom-emacs
       binutils
       cmake
       gcc
@@ -103,7 +109,6 @@ in {
     ];
 
     file = {
-      ".doom.d".source = dotfiles/doom;
       ".config/alacritty.yml".source = dotfiles/alacritty.yml;
       # ".config/awesome".source = (builtins.fetchGit {
       #   url = "git@github.com:rakanalh/awesome-config.git";
@@ -133,11 +138,11 @@ in {
   # Let Home Manager install and manage itself.
     home-manager.enable = true;
     alacritty.enable = true;
-    emacs = {
-      enable = true;
-      package = pkgs.emacsNativeComp;
-      extraPackages = (epkgs: [ epkgs.vterm ] );
-    };
+    # emacs = {
+    #   enable = true;
+    #   package = pkgs.emacsNativeComp;
+    #   extraPackages = (epkgs: [ epkgs.vterm ] );
+    # };
     # Better 'cat'
     bat = {
       enable = true;
@@ -436,6 +441,7 @@ in {
   services = {
     emacs = {
       enable = true;
+      package = doom-emacs;
     };
     gpg-agent = {
       enable = true;
