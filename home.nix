@@ -167,6 +167,55 @@ in {
     feh = {
       enable = true;
     };
+    firefox = {
+      enable = true;
+      profiles = {
+        personal = {
+          isDefault = true;
+          settings = {
+            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          };
+
+          userChrome = ''
+            @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+            #TabsToolbar {
+              visibility: collapse;
+            }
+
+            #titlebar {
+              display: none;
+            }
+
+            #sidebar-header {
+              display: none;
+            }
+          '';
+        };
+        work = {
+          isDefault = false;
+          settings = {
+            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          };
+
+          userChrome = ''
+            @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+            #TabsToolbar {
+              visibility: collapse;
+            }
+
+            #titlebar {
+              display: none;
+            }
+
+            #sidebar-header {
+              display: none;
+            }
+          '';
+        };
+      };
+    };
     git = {
       enable = true;
       delta.enable = true;
