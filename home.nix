@@ -120,7 +120,7 @@ in {
       ".Xresources".source = dotfiles/Xresources;
       ".password-store".source = (builtins.fetchGit {
         url = "ssh://git@github.com/rakanalh/password-store.git";
-        ref = "master";
+        ref = "B85";
       });
     };
   };
@@ -226,7 +226,7 @@ in {
       userName = "rakanalh";
       userEmail = "rakan.alhneiti@gmail.com";
       signing.signByDefault = true;
-      signing.key = "E565B55AACE73E69DBAE87C89981A6DBFDC453AE";
+      signing.key = "F849CD739A2CEB85";
       aliases = {
         lol = "log --graph --decorate --oneline --abbrev-commit";
         lola = "log --graph --decorate --oneline --abbrev-commit --all";
