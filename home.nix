@@ -173,6 +173,7 @@ in {
       enable = true;
       profiles = {
         personal = {
+          id = 0;
           isDefault = true;
           settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
@@ -195,6 +196,7 @@ in {
           '';
         };
         work = {
+          id = 1;
           isDefault = false;
           settings = {
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
