@@ -112,6 +112,7 @@ in {
 
     file = {
       ".config/alacritty.yml".source = dotfiles/alacritty.yml;
+      ".mozilla/native-messaging-hosts/ax.nd.profile_switcher_ff.json".source = dotfiles/ff-profile/ax.nd.profile_switcher_ff.json;
       # ".config/awesome".source = (builtins.fetchGit {
       #   url = "git@github.com:rakanalh/awesome-config.git";
       #   ref = "nixos";
