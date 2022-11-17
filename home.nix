@@ -154,7 +154,9 @@ in {
         pager = "less -FR";
       };
     };
-    # Really useful for auto-running 'shell.nix', see also: lorri
+    command-not-found = {
+      enable = true;
+    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
