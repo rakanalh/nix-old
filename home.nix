@@ -443,9 +443,6 @@ in {
       oh-my-zsh.theme = "fox";
       envExtra = ''
         PATH=''${PATH}:~/.cargo/bin
-        if [[ -n $IN_NIX_SHELL ]]; then
-           export PS1=''${PS1//\%M/\%M-shell}
-        fi
         RUSTC_WRAPPER=~/.cargo/bin/cachepot
 
         bindkey -e
@@ -485,6 +482,34 @@ in {
         settings = {
           PASSWORD_STORE_DIR = "$HOME/.password-store";
         };
+    };
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = {
+        add_newline = false;
+        nix_shell = {
+          disabled = false;
+          impure_msg = "[shell](bold red)";
+          pure_msg = "[shell](bold green)";
+          format = "[☃️ $state( \($name\))](bold blue) ";
+        };
+        git_branch = {
+          format = "$symbol\\[[$branch]($style)\\] ";
+        };
+        rust = {
+          format = "\\[using [$symbol($version)]($style)\\] ";
+        };
+        python = {
+          format = "\\[using [$symbol$pyenv_prefix($version \\((\($virtualenv\))\\))]($style)\\] ";
+        };
+        character = {
+          success_symbol = "[➜](bold green)";
+          error_symbol = "[➜](bold red)";
+        };
+
+        package.disabled = false;
+      };
     };
     gpg = {
       enable = true;
