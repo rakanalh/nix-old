@@ -536,6 +536,9 @@ in {
         "E565B55AACE73E69DBAE87C89981A6DBFDC453AE"
       ];
     };
+    lorri = {
+      enable = true;
+    };
     flameshot = {
       enable = true;
     };
