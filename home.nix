@@ -542,6 +542,12 @@ in {
     flameshot = {
       enable = true;
     };
+    syncthing = {
+      enable = true;
+      tray = {
+        enable = true;
+      };
+    };
     udiskie = {
       enable = true;
       automount = true;
