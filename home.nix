@@ -121,7 +121,7 @@ in {
       ".Xresources".source = dotfiles/Xresources;
       ".password-store".source = (builtins.fetchGit {
         url = "ssh://git@github.com/rakanalh/password-store.git";
-        ref = "B85";
+        ref = "master";
       });
     };
   };
