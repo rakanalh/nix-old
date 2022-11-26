@@ -9,11 +9,6 @@ let
   };
 in {
   nixpkgs = {
-    overlays = [
-      (import (builtins.fetchTarball {
-        url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-      }))
-    ];
     config = {
       allowUnfree = true;
     };
@@ -74,6 +69,7 @@ in {
       gcc
       gnumake
       jemalloc
+      jq
       libclang
       neovim
       openssl
@@ -112,6 +108,7 @@ in {
 
     file = {
       ".config/alacritty.yml".source = dotfiles/alacritty.yml;
+      ".config/ra-multiplex".source = dotfiles/ra-multiplex;
       ".mozilla/native-messaging-hosts/ax.nd.profile_switcher_ff.json".source = dotfiles/ff-profile/ax.nd.profile_switcher_ff.json;
       # ".config/awesome".source = (builtins.fetchGit {
       #   url = "git@github.com:rakanalh/awesome-config.git";
@@ -163,7 +160,6 @@ in {
       enableBashIntegration = true;
       enableZshIntegration = true;
     };
-
     # Better 'ls'
     exa = {
       enable = true;
@@ -492,7 +488,10 @@ in {
           disabled = false;
           impure_msg = "[shell](bold red)";
           pure_msg = "[shell](bold green)";
-          format = "[☃️ $state( \($name\))](bold blue) ";
+          format = "[☃️ \($name\)](bold blue) ";
+        };
+        aws = {
+          disabled = true;
         };
         git_branch = {
           format = "$symbol\\[[$branch]($style)\\] ";
@@ -544,9 +543,6 @@ in {
     };
     syncthing = {
       enable = true;
-      tray = {
-        enable = true;
-      };
     };
     udiskie = {
       enable = true;
@@ -555,23 +551,33 @@ in {
     };
   };
 
-  # systemd.user.services.dropbox = {
-  #   Unit = {
-  #     Description = "Dropbox";
-  #     After = [ "graphical-session-pre.target" ];
-  #     PartOf = [ "graphical-session.target" ];
-  #   };
-
-  #   Service = {
-  #     Restart = "on-failure";
-  #     RestartSec = 1;
-  #     ExecStart = "${pkgs.dropbox}/bin/dropbox";
-  #     Environment = "QT_PLUGIN_PATH=/run/current-system/sw/${pkgs.qt5.qtbase.qtPluginPrefix}";
-  #    };
-
-  #   Install = {
-  #       WantedBy = [ "graphical-session.target" ];
-  #   };
-
-  # };
+  systemd.user.services = {
+    ra-multiplex = {
+      Unit = {
+        Description = "Rust-Analyzer multiplexer";
+      };
+      Service = {
+        Restart = "on-failure";
+        RestartSec = 1;
+        ExecStart = "/home/rakan/.cargo/bin/ra-multiplex-server";
+        Environment = "RA_MUX_SERVER=/home/rakan/.cargo/bin/rust-analyzer";
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
+    noip2 = {
+      Unit = {
+        Description = "noip2 service";
+      };
+      Service = {
+        Type = "forking";
+        ExecStart = "/home/rakan/.nix-profile/bin/noip2";
+        Restart = "always";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+    };
+  };
 }
