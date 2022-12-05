@@ -242,7 +242,8 @@ in {
       theme = "Arc-Dark";
       pass.enable = true;
       pass.extraConfig = ''
-        AUTOTYPE_field='pass' 
+        AUTOTYPE_field='pass'
+        help_color="#4872FF"
       '';
       plugins = [
         pkgs.rofi-calc
