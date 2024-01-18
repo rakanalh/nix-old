@@ -11,6 +11,10 @@ in {
   nixpkgs = {
     config = {
       allowUnfree = true;
+      permittedInsecurePackages = [
+        "electron-25.9.0"
+        "openssl-1.1.1w"
+      ];
     };
   };
 
@@ -27,7 +31,7 @@ in {
     # You can update Home Manager without changing this value. See
     # the Home Manager release notes for a list of state version
     # changes in each release.
-    stateVersion = "22.05";
+    stateVersion = "23.11";
     sessionVariablesExtra = ''
       export SSH_AUTH_SOCK="$(${gpgPkg}/bin/gpgconf --list-dirs agent-ssh-socket)"
     '';
@@ -51,12 +55,11 @@ in {
       qtpass
       transmission-gtk
       openra
-      openraPackages.mods.gen
-      hubstaff
       _1password-gui
       obsidian
       okular
       sublime4
+      hubstaff
 
       # Fonts
       nerdfonts
@@ -72,7 +75,7 @@ in {
       jq
       libclang
       neovim
-      openssl
+      neovide
       pkg-config
       ripgrep
       rustup
@@ -90,6 +93,7 @@ in {
       pamixer
       noip
       wally-cli
+      youtube-dl
 
       # Audio / Video
       mpv
@@ -118,7 +122,7 @@ in {
       ".Xresources".source = dotfiles/Xresources;
       ".password-store".source = (builtins.fetchGit {
         url = "ssh://git@github.com/rakanalh/password-store.git";
-        ref = "master";
+        ref = "B85";
       });
     };
   };
@@ -161,7 +165,7 @@ in {
       enableZshIntegration = true;
     };
     # Better 'ls'
-    exa = {
+    eza = {
       enable = true;
       enableAliases = true;
     };
@@ -435,7 +439,7 @@ in {
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       oh-my-zsh.enable = true;
       oh-my-zsh.theme = "fox";
       envExtra = ''
@@ -448,13 +452,6 @@ in {
         bindkey \^U backward-kill-line
       '';
       shellAliases = {
-        # exa
-        ls = "${pkgs.exa}/bin/exa";
-        ll = "${pkgs.exa}/bin/exa -l";
-        la = "${pkgs.exa}/bin/exa -a";
-        lt = "${pkgs.exa}/bin/exa --tree";
-        lla = "${pkgs.exa}/bin/exa -la";
-
         # git
         gs = "${pkgs.git}/bin/git status";
 
@@ -536,9 +533,9 @@ in {
         "E565B55AACE73E69DBAE87C89981A6DBFDC453AE"
       ];
     };
-    lorri = {
-      enable = true;
-    };
+    #lorri = {
+    #  enable = true;
+    #};
     flameshot = {
       enable = true;
     };

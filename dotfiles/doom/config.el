@@ -5,6 +5,8 @@
 (setq user-full-name "Rakan Al-Hneiti"
       user-mail-address "rakan.alhneiti@gmail.com")
 
+(setenv "SSH_AUTH_SOCK" "/run/user/1000/gnupg/S.gpg-agent.ssh")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -155,7 +157,7 @@
 (after! lsp-mode
   (set-popup-rule! "^\\*lsp-help*" :ignore nil :actions: nil :side 'bottom :width 0.5 :quit 'current :select t :vslot 2 :slot 0)
   (setq lsp-rust-server 'rust-analyzer
-      lsp-rust-analyzer-server-command "~/.cargo/bin/ra-multiplex"
+      lsp-rust-analyzer-server-command "~/.cargo/bin/rust-analyzer"
       lsp-completion-enable t
       lsp-enable-imenu t
       lsp-ui-doc-enable t
@@ -163,6 +165,7 @@
       lsp-ui-sideline-show-hover t
       lsp-rust-analyzer-server-display-inlay-hints t
       lsp-headerline-breadcrumb-enable t
+      lsp-rust-analyzer-cargo-watch-enable nil
       lsp-ui-peek-fontify 'always)
   ;; (setq lsp-rust-rustfmt-bin (expand-file-name "~/.cargo/bin/gitfmt"))
   ;; (setq lsp-rust-analyzer-cargo-watch-command "check")
@@ -181,7 +184,7 @@
 ;;;;; RUST
 ; (setq-hook! 'rustic-mode-hook indent-tabs-mode t)
 (setq-hook! 'rustic-mode-hook lsp-rust-rustfmt-path (concat (projectile-project-root) "rustfmt.toml"))
-(setq rustic-analyzer-command '("~/.cargo/bin/ra-multiplex"))
+(setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
 (setq rustic-lsp-server 'rust-analyzer)
 (setq rustic-format-on-save t)
 (setq rustic-lsp-format t)
