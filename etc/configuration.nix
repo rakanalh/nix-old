@@ -2,11 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, callPackage, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
-    [ 
+    [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
@@ -16,20 +16,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.supportedFilesystems = [ "ntfs" ];
-  fileSystems."/run/media/rakan/windows" = { 
-    device = "/dev/nvme0n1p3";
-    label = "Windows";
-    fsType = "ntfs"; 
-    options = [ "rw" "uid=1000" ];
-  };
-  fileSystems."/run/media/rakan/sd1" = {
-    device = "/dev/sda";
-    fsType = "auto";
-    label = "SD1";
-    options = [ "defaults" "user" "rw" "auto" ];
-  };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -72,7 +60,7 @@
     # Configure keymap in X11
     layout = "us,ara";
     xkbVariant = ",mac";
-    xkbOptions = "grp:alt_space_toggle";
+    xkbOptions = "grp:alt_space_toggle,caps:escape";
   };
 
   security.polkit.enable = true;
@@ -86,7 +74,6 @@
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.ledger.enable = true;
-  hardware.video.hidpi.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -98,20 +85,7 @@
   # Enable sound with pipewire.
   sound.enable = false;
   hardware.pulseaudio.enable = false;
-  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
-  # hardware.pulseaudio.tcp.enable = true;
-  # hardware.pulseaudio.tcp.anonymousClients.allowedIpRanges = [
-  #   "127.0.0.1"
-  #   "192.168.1.0/24"
-  #   "192.168.14.0/24"
-  #   "192.168.43.0/24"
-  # ];
-  # hardware.pulseaudio.daemon.config = {
-  #   daemonize = "yes";
-  # };
-  # hardware.pulseaudio.extraClientConf = ''
-  #   autospawn = yes;
-  # '';
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -127,7 +101,7 @@
   systemd.user.services.pipewire-pulse.path = [ pkgs.pulseaudio ];
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rakan = {
@@ -175,50 +149,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.plex = {
-    enable = true;
-    user = "rakan";
-    openFirewall = true;
-  };
-  services.pipewire = {
-    config.pipewire-pulse = {
-      "context.properties" = {
-        "log.level" = 2;
-      };
-      "context.modules" = [
-        {
-          name = "libpipewire-module-rtkit";
-          args = {
-            "nice.level" = -15;
-            "rt.prio" = 88;
-            "rt.time.soft" = 200000;
-            "rt.time.hard" = 200000;
-          };
-          flags = [ "ifexists" "nofail" ];
-        }
-        { name = "libpipewire-module-protocol-native"; }
-        { name = "libpipewire-module-client-node"; }
-        { name = "libpipewire-module-adapter"; }
-        { name = "libpipewire-module-metadata"; }
-        {
-          name = "libpipewire-module-protocol-pulse";
-          args = {
-            "pulse.min.req" = "32/48000";
-            "pulse.default.req" = "32/48000";
-            "pulse.max.req" = "32/48000";
-            "pulse.min.quantum" = "32/48000";
-            "pulse.max.quantum" = "32/48000";
-            "server.address" = [ "unix:native" ];
-          };
-        }
-      ];
-      "stream.properties" = {
-        "node.latency" = "32/48000";
-        "resample.quality" = 1;
-      };
-    };
-  };
-  services.lorri.enable = true;
+  # services.lorri.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization ];
   services.pcscd.enable = true;
   services.actkbd.enable = true;
@@ -238,7 +169,7 @@
     34.240.40.232 buildbot-worker4
     176.34.129.233 buildbot-worker5
   '';
-
+  
   nix.extraOptions = ''
     keep-outputs = true
     keep-derivations = true
@@ -250,6 +181,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
